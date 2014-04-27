@@ -74,7 +74,21 @@ measures_of_means_and_std <- merge_data[,grepl("subject|activity|[Mm][Ee][Aa][Nn
 ## Part 4 ##
 ############
 
-merged_data_with_labels <-merge(merge_data[,c(1:ncol(merge_data))], activity_labels, by.x = "activity", by.y = "id")
+measures_of_means_and_std_with_labels <-merge(measures_of_means_and_std[,c(1:ncol(measures_of_means_and_std))], activity_labels, by.x = "activity", by.y = "id")
 
 
+############
+## Part 5 ##
+############
 
+data_subset <- data.frame(matrix(nrow=0, ncol=ncol(merge_data)))
+names(data_subset) <- names(merge_data)
+
+for(i in 1:30) {
+    for(j in 1:6) {
+        temp <- merge_data[,merge_data$subject == i & merge_data$activity == j]
+        temp_means <- colMeans(temp)
+        c(i, j, temp_means)
+        rbind(data_subset, temp_means)
+    }
+}
